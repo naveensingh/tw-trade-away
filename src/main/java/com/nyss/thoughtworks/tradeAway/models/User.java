@@ -1,5 +1,7 @@
 package com.nyss.thoughtworks.tradeAway.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
@@ -20,6 +22,8 @@ public class User {
     @Column private String address;
     @Column private String mobile;
     @Column private Gender gender;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column private Date dob;
 
     public User(Long id, String name, String emailId, String username, String password, String address, String mobile, Gender gender, Date dob) {
