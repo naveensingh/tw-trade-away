@@ -1,13 +1,16 @@
 package com.nyss.thoughtworks.tradeAway.models;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
+import java.util.Date;
 
-@Table
+@Table(name = "user_table")
+@XmlRootElement
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column private String name;
@@ -17,9 +20,9 @@ public class User {
     @Column private String address;
     @Column private String mobile;
     @Column private Gender gender;
-    @Column private LocalDate dob;
+    @Column private Date dob;
 
-    public User(Long id, String name, String emailId, String username, String password, String address, String mobile, Gender gender, LocalDate dob) {
+    public User(Long id, String name, String emailId, String username, String password, String address, String mobile, Gender gender, Date dob) {
         this.id = id;
         this.name = name;
         this.emailId = emailId;
@@ -95,11 +98,11 @@ public class User {
         this.gender = gender;
     }
 
-    public LocalDate getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
