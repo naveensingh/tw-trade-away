@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Email;
 import com.nyss.thoughtworks.tradeAway.utilities.Encryptor;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -86,6 +87,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column
     private Gender  gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private UserType userType;
 
     @NotNull(
             message = "Date of birth should be specified",
