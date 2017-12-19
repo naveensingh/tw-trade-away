@@ -17,9 +17,9 @@ public class InputValidatorTest {
     }
 
     @Test
-    public void shouldVerifyIfStringWithNumbersIsInValid() {
+    public void shouldVerifyIfStringWithNumbersIsValid() {
         InputValidator inputValidator = new InputValidator();
-        Assert.assertFalse(inputValidator.validateStringForAlphanumericCharacters("john1241351"));
+        Assert.assertTrue(inputValidator.validateStringForAlphanumericCharacters("john1241351"));
     }
 
     @Test

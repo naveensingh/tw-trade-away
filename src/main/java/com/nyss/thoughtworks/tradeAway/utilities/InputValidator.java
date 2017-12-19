@@ -1,8 +1,14 @@
 package com.nyss.thoughtworks.tradeAway.utilities;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class InputValidator {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);

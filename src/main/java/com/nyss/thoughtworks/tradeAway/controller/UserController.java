@@ -17,6 +17,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    InputValidator inputValidator;
+
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody User user, UriComponentsBuilder builder) {
@@ -26,17 +29,11 @@ public class UserController {
             headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         } else {
-            System.out.println("DIDNT GO INGGG");
             return new ResponseEntity<>(headers, HttpStatus.FORBIDDEN);
         }
     }
 
     private boolean isValidUser(User user) {
-        InputValidator inputValidator = new InputValidator();
-        System.out.println(inputValidator.validateStringForAlphanumericCharacters(user.getName())
-                && inputValidator.validateStringForEmail(user.getEmailId())
-                && inputValidator.validateStringForNumbers(user.getMobile())
-                && inputValidator.validateStringForAlphabetsOnly(user.getGender().toString()));
         if (inputValidator.validateStringForAlphanumericCharacters(user.getName())
                 && inputValidator.validateStringForEmail(user.getEmailId())
                 && inputValidator.validateStringForNumbers(user.getMobile())
@@ -45,11 +42,5 @@ public class UserController {
         return false;
 
     }
-
-    @GetMapping
-    public ResponseEntity<User> get() {
-        return new ResponseEntity<>(new User(), HttpStatus.OK);
-    }
-
 
 }
