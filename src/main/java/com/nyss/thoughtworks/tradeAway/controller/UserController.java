@@ -11,8 +11,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +30,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+        user.encryptPassword();
         HttpHeaders headers = new HttpHeaders();
         userService.create(user);
         headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());

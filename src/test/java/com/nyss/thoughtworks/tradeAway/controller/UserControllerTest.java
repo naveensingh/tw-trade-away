@@ -28,10 +28,16 @@ public class UserControllerTest {
     @Test
     public void shouldVerifyIfUserServiceISCalled() {
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
     }
 
     @Test
-    public void shouldVerifyIfUserDetailsAreValidatedBeforeBeingCreated() {
+    public void shouldVerifyIfUserDetailsAreValidatedBeforeBeingCreated() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         User user = new User();
         user.setName("John");
         user.setEmailId("jo$$4hn@doe.com");
