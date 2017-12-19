@@ -1,25 +1,18 @@
 package com.nyss.thoughtworks.tradeAway.controller;
 
 import com.nyss.thoughtworks.tradeAway.models.User;
-import com.nyss.thoughtworks.tradeAway.models.UserErrorResponse;
 import com.nyss.thoughtworks.tradeAway.service.UserService;
+import com.nyss.thoughtworks.tradeAway.utilities.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,24 +22,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<Long> create(@Validated(User.New.class) @RequestBody User user) {
-        UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
-        user.encryptPassword();
-        HttpHeaders headers = new HttpHeaders();
-        long id = userService.create(user);
-        headers.setLocation(builder.path("/{id}").buildAndExpand(id).toUri());
-        return new ResponseEntity<>(id, headers, HttpStatus.CREATED);
-    }
+    @Autowired
+    private UserValidator userValidator;
 
-    @ExceptionHandler({ConstraintViolationException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public UserErrorResponse handleException(ConstraintViolationException ex) {
-        List<String> errors = new ArrayList<>();
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            errors.add(violation.getMessageTemplate());
+    @PostMapping
+    public ResponseEntity<String> create(@RequestBody User user) {
+        List<String> errors = userValidator.validate(user);
+        if (errors.isEmpty()) {
+            UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+            user.encryptPassword();
+            HttpHeaders headers = new HttpHeaders();
+            long id = userService.create(user);
+            headers.setLocation(builder.path("/{id}").buildAndExpand(id).toUri());
+            return new ResponseEntity<>(Long.toString(id), headers, HttpStatus.CREATED);
         }
-        return UserErrorResponse.builder().message(String.join(", ", errors)).build();
+        String errorsAsString = String.join(", ", errors);
+        return new ResponseEntity<>(errorsAsString, HttpStatus.BAD_REQUEST);
     }
 
 }

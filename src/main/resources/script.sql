@@ -14,7 +14,7 @@ create table users (
     dob timestamp,
     email_id varchar(255),
     gender varchar(255),
-    mobile varchar(10),
+    mobile varchar(255),
     name varchar(255),
     password varchar(255),
     user_type varchar(255),

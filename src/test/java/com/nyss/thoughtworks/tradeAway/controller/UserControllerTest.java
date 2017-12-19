@@ -1,9 +1,8 @@
 package com.nyss.thoughtworks.tradeAway.controller;
 
-import com.nyss.thoughtworks.tradeAway.models.Gender;
 import com.nyss.thoughtworks.tradeAway.models.User;
-import com.nyss.thoughtworks.tradeAway.models.UserErrorResponse;
 import com.nyss.thoughtworks.tradeAway.service.UserService;
+import com.nyss.thoughtworks.tradeAway.utilities.UserValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,14 +10,10 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -30,6 +25,9 @@ public class UserControllerTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private UserValidator userValidator;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -37,54 +35,56 @@ public class UserControllerTest {
 
     @Test
     public void shouldVerifyIfUserIsCreatedForValidInputData() {
-        when(userService.create(any())).thenReturn(200L);
+        long dummyId = 200L;
+        String expectedResponseBody = Long.toString(dummyId);
         User user = new User();
         user.setName("Navin");
         user.setDob(new Date());
         user.setPassword("navin12#");
         user.setAddress("Hyd");
         user.setMobile("1234567899");
-        user.setGender(Gender.MALE);
+        user.setGender("MALE");
         user.setEmailId("navin@bb.com");
-        ResponseEntity<Long> responseEntity = userController.create(user);
+        when(userService.create(user)).thenReturn(dummyId);
+        when(userValidator.validate(user)).thenReturn(new ArrayList<>());
 
+        ResponseEntity<String> responseEntity = userController.create(user);
+
+        verify(userValidator, times(1)).validate(user);
         verify(userService, times(1)).create(user);
-        assertEquals(200, responseEntity.getBody().intValue());
+        assertEquals(expectedResponseBody, responseEntity.getBody());
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
 
-    @Test
-    public void shouldVerifyIfErrorIsReturnedForInvalidInputData() {
-        Set<ConstraintViolation<User>> setOfViolations = new HashSet<>();
-        ConstraintViolation<User> violation = mock(ConstraintViolation.class);
-        when(violation.getMessageTemplate()).thenReturn("Email format not recognized");
-        setOfViolations.add(violation);
-        ConstraintViolationException exception = new ConstraintViolationException(setOfViolations);
-
-        UserErrorResponse response = userController.handleException(exception);
-
-        verify(violation, times(1)).getMessageTemplate();
-        assertEquals("Email format not recognized", response.getMessage());
-    }
 
     @Test
-    public void shouldVerifyIfErrorIsReturnedForMultipleErrorsInData() {
-        Set<ConstraintViolation<User>> setOfViolations = new HashSet<>();
-        ConstraintViolation<User> firstViolation = mock(ConstraintViolation.class);
-        when(firstViolation.getMessageTemplate()).thenReturn("Email format not recognized");
-        setOfViolations.add(firstViolation);
+    public void shouldVerifyIfBadRequestIsCommunicatedInResponseForViolationOfConstraintsInInputData() {
+        List<String> violations = new ArrayList<>();
+        String firstViolation = "violation 1";
+        String secondViolation = "violation 2";
+        String thirdViolation = "violation 3";
+        violations.add(firstViolation);
+        violations.add(secondViolation);
+        violations.add(thirdViolation);
 
-        ConstraintViolation<User> secondViolation = mock(ConstraintViolation.class);
-        when(secondViolation.getMessageTemplate()).thenReturn("Mobile number should not be greater than 10 characters");
-        setOfViolations.add(secondViolation);
+        User user = new User();
+        user.setName("Navin");
+        user.setDob(new Date());
+        user.setPassword("navin12#");
+        user.setAddress("Hyd");
+        user.setMobile("1234567899");
+        user.setGender("MALE");
+        user.setEmailId("navin@bb.com");
+        when(userValidator.validate(user)).thenReturn(violations);
 
-        ConstraintViolationException exception = new ConstraintViolationException(setOfViolations);
+        ResponseEntity<String> responseEntity = userController.create(user);
 
-        UserErrorResponse response = userController.handleException(exception);
-
-        verify(firstViolation, times(1)).getMessageTemplate();
-        verify(secondViolation, times(1)).getMessageTemplate();
-        assertEquals(true, true);
+        verify(userValidator, times(1)).validate(user);
+        verify(userService, times(0)).create(user);
+        assertTrue(responseEntity.getBody().contains(firstViolation));
+        assertTrue(responseEntity.getBody().contains(secondViolation));
+        assertTrue(responseEntity.getBody().contains(thirdViolation));
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
 }

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -26,8 +25,13 @@ public class UserServiceTest {
     @Test
     public void verifyIfCreateMethodReturnsUserIdOfCreatedUser() {
         User user = mock(User.class);
-        when(user.getId()).thenReturn(200L);
+        long expectedId = 200L;
+        when(user.getId()).thenReturn(expectedId);
         when(userRepository.save(user)).thenReturn(user);
-        Assert.assertEquals(user.getId(), userService.create(user));
+
+        long actualId = userService.create(user);
+
+        verify(userRepository, times(1)).save(user);
+        Assert.assertEquals(expectedId, actualId);
     }
 }
