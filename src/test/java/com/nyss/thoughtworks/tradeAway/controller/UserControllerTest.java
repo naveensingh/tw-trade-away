@@ -12,6 +12,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
@@ -31,7 +37,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void shouldVerifyIfUserServiceISCalled() {
+    public void shouldVerifyIfUserServiceISCalled() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         User user = mock(User.class);
         when(user.getId()).thenReturn(200L);
         when(user.getGender()).thenReturn(Gender.MALE);
@@ -44,7 +50,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldVerifyIfUserDetailsAreValidatedBeforeBeingCreated() {
+    public void shouldVerifyIfUserDetailsAreValidatedBeforeBeingCreated() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         User user = new User();
         user.setName("John");
         user.setEmailId("jo$$4hn@doe.com");
