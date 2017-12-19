@@ -2,6 +2,7 @@ package com.nyss.thoughtworks.tradeAway.service;
 
 import com.nyss.thoughtworks.tradeAway.repository.UserRepository;
 import com.nyss.thoughtworks.tradeAway.models.User;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,10 +25,10 @@ public class UserServiceTest {
     UserRepository userRepository;
 
     @Test
-    public void shouldCallRepositoryMethod() {
+    public void verifyIfCreateMethodReturnsUserIdOfCreatedUser() {
         User user = mock(User.class);
         when(user.getId()).thenReturn(200L);
-        userService.create(user);
-        verify(userRepository, times(1)).save(user);
+        when(userRepository.save(user)).thenReturn(user);
+        Assert.assertEquals(user.getId(), userService.create(user));
     }
 }
