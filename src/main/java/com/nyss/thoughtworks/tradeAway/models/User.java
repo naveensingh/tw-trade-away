@@ -110,7 +110,7 @@ public class User {
         this.dob = dob;
     }
 
-    protected User() {
+    public User() {
 
     }
 }
