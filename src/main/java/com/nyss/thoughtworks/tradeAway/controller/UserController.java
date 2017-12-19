@@ -29,7 +29,8 @@ public class UserController {
             headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(headers, HttpStatus.FORBIDDEN);
+            headers.add("Error Response", "User is not valid");
+            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
         }
     }
 
