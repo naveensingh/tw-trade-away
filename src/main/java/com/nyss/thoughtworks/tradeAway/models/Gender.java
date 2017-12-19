@@ -1,5 +1,7 @@
 package com.nyss.thoughtworks.tradeAway.models;
 
-public enum Gender {
+public enum
+
+Gender {
     MALE, FEMALE, NOT_DECLARED
 }
