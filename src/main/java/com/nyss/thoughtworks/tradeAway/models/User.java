@@ -82,8 +82,10 @@ public class User {
             message = "Gender should be specified",
             groups = {Existing.class, New.class}
     )
+
+    @Enumerated(EnumType.STRING)
     @Column
-    private Gender gender;
+    private Gender  gender;
 
     @NotNull(
             message = "Date of birth should be specified",
