@@ -1,116 +1,93 @@
 package com.nyss.thoughtworks.tradeAway.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Table(name = "user_table")
 @XmlRootElement
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(groups = Existing.class)
+    @Null(groups = New.class)
     private Long id;
 
-    @Column private String name;
-    @Column private String emailId;
-    @Column private String username;
-    @Column private String password;
-    @Column private String address;
-    @Column private String mobile;
-    @Column private Gender gender;
+    @NotNull(
+            message = "First name is required",
+            groups = {Existing.class, New.class}
+    )
+    @Size(min = 1, message = "At least one character is required in name")
+    @Pattern(regexp = "[a-zA-Z]+", message = "This format of name is not recognized")
+    @Column
+    private String name;
 
+    @Email(message = "Email is not valid")
+    @Column
+    private String emailId;
+
+    @NotNull(
+            message = "Username is required",
+            groups = {Existing.class, New.class}
+    )
+    @Size(min = 1, message = "At least one character is required in username")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "This format of username is not recognized")
+    @Column
+    private String username;
+
+    @NotNull(
+            message = "Password cannot be empty",
+            groups = {Existing.class, New.class}
+    )
+    @Size(min = 1, message = "At least one character is required in password")
+    @Column
+    private String password;
+
+    @NotNull(
+            message = "Address cannot be empty",
+            groups = {Existing.class, New.class}
+    )
+    @Size(min = 1, message = "At least one character is required in address")
+    @Column
+    private String address;
+
+    @NotNull(
+            message = "Mobile number cannot be empty",
+            groups = {Existing.class, New.class}
+    )
+    @Size(min = 1, max = 10, message = "Mobile number should be between 1 to 10 characters of length")
+    @Column
+    private String mobile;
+
+    @NotNull(
+            message = "Gender should be specified",
+            groups = {Existing.class, New.class}
+    )
+    @Column
+    private Gender gender;
+
+    @NotNull(
+            message = "Date of birth should be specified",
+            groups = {Existing.class, New.class}
+    )
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column private Date dob;
+    @Column
+    private Date dob;
 
-    public User(Long id, String name, String emailId, String username, String password, String address, String mobile, Gender gender, Date dob) {
-        this.id = id;
-        this.name = name;
-        this.emailId = emailId;
-        this.username = username;
-        this.password = password;
-        this.address = address;
-        this.mobile = mobile;
-        this.gender = gender;
-        this.dob = dob;
+    public interface Existing {
     }
 
-    public Long getId() {
-        return id;
+    public interface New {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public User() {
-
-    }
 }

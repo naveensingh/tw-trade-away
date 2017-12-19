@@ -3,7 +3,6 @@ package com.nyss.thoughtworks.tradeAway.controller;
 import com.nyss.thoughtworks.tradeAway.models.Gender;
 import com.nyss.thoughtworks.tradeAway.models.User;
 import com.nyss.thoughtworks.tradeAway.service.UserService;
-import com.nyss.thoughtworks.tradeAway.utilities.InputValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,26 +20,14 @@ public class UserControllerTest {
 
     @InjectMocks
     @Autowired
-    UserController userController;
+    private UserController userController;
 
     @Mock
-    UserService userService;
-
-    @Mock
-    InputValidator inputValidator;
-
+    private UserService userService;
 
     @Test
     public void shouldVerifyIfUserServiceISCalled() {
-        User user = mock(User.class);
-        when(user.getId()).thenReturn(200L);
-        when(user.getGender()).thenReturn(Gender.MALE);
-        when(inputValidator.validateStringForAlphanumericCharacters(any())).thenReturn(true);
-        when(inputValidator.validateStringForAlphabetsOnly(any())).thenReturn(true);
-        when(inputValidator.validateStringForEmail(any())).thenReturn(true);
-        when(inputValidator.validateStringForNumbers(any())).thenReturn(true);
-        userController.create(user, UriComponentsBuilder.newInstance());
-        verify(userService, times(1)).create(user);
+
     }
 
     @Test

@@ -1,46 +1,44 @@
 package com.nyss.thoughtworks.tradeAway.controller;
 
 import com.nyss.thoughtworks.tradeAway.models.User;
+import com.nyss.thoughtworks.tradeAway.models.UserErrorResponse;
 import com.nyss.thoughtworks.tradeAway.service.UserService;
-import com.nyss.thoughtworks.tradeAway.utilities.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "users")
 public class UserController {
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    InputValidator inputValidator;
-
+    private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody User user, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
-        if (isValidUser(user)) {
-            userService.create(user);
-            headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.FORBIDDEN);
-        }
+        userService.create(user);
+        headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    private boolean isValidUser(User user) {
-        if (inputValidator.validateStringForAlphanumericCharacters(user.getName())
-                && inputValidator.validateStringForEmail(user.getEmailId())
-                && inputValidator.validateStringForNumbers(user.getMobile())
-                && inputValidator.validateStringForAlphabetsOnly(user.getGender().toString()))
-            return true;
-        return false;
-
+    @ExceptionHandler({ConstraintViolationException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public UserErrorResponse handleException(ConstraintViolationException ex) {
+        List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errors.add(violation.getMessageTemplate());
+        }
+        return UserErrorResponse.builder().message(String.join(", ", errors)).build();
     }
 
 }
