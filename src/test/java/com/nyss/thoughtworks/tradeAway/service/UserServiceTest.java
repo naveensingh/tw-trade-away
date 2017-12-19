@@ -18,11 +18,10 @@ public class UserServiceTest {
 
 
     @InjectMocks
-    @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Test
     public void verifyIfCreateMethodReturnsUserIdOfCreatedUser() {
