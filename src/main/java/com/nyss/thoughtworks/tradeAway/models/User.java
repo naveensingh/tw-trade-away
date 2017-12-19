@@ -1,9 +1,16 @@
 package com.nyss.thoughtworks.tradeAway.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nyss.thoughtworks.tradeAway.utilities.Encryptor;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -22,6 +29,7 @@ public class User {
     @Column private String address;
     @Column private String mobile;
     @Column private Gender gender;
+
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column private Date dob;
@@ -112,5 +120,9 @@ public class User {
 
     public User() {
 
+    }
+
+    public void encryptPassword() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+        setPassword(Encryptor.encrypt(getPassword(), getUsername()));
     }
 }

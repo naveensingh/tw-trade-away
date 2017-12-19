@@ -33,7 +33,7 @@ public class UserController {
     public ResponseEntity<Void> create(@RequestBody User user, UriComponentsBuilder builder) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         HttpHeaders headers = new HttpHeaders();
         if (isValidUser(user)) {
-            user.setPassword(Encryptor.encrypt(user.getPassword(), user.getUsername()));
+            user.encryptPassword();
             userService.create(user);
             headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
