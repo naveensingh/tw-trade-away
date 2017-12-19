@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Table(name = "user_table")
+@Table(name = "users")
 @XmlRootElement
 @Entity
 @Data

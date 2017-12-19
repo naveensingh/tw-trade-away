@@ -15,6 +15,14 @@ import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
@@ -27,14 +35,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldVerifyIfUserServiceISCalled() {
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-    }
+   }
 
     @Test
     public void shouldVerifyIfUserDetailsAreValidatedBeforeBeingCreated() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {

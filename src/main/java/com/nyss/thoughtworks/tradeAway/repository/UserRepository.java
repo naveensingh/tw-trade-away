@@ -1,4 +1,4 @@
-package com.nyss.thoughtworks.tradeAway;
+package com.nyss.thoughtworks.tradeAway.repository;
 
 import com.nyss.thoughtworks.tradeAway.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

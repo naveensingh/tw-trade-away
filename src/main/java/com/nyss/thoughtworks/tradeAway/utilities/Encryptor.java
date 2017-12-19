@@ -19,8 +19,8 @@ public class Encryptor {
     private static SecretKeySpec secretKey;
     private static byte[] key;
 
-    public static void setKey(String myKey) {
-        MessageDigest sha = null;
+    private static void setKey(String myKey) {
+        MessageDigest sha;
         try {
             key = myKey.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-1");

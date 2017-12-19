@@ -1,6 +1,6 @@
 package com.nyss.thoughtworks.tradeAway.service;
 
-import com.nyss.thoughtworks.tradeAway.UserRepository;
+import com.nyss.thoughtworks.tradeAway.repository.UserRepository;
 import com.nyss.thoughtworks.tradeAway.models.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
