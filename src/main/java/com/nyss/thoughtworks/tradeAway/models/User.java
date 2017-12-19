@@ -3,27 +3,20 @@ package com.nyss.thoughtworks.tradeAway.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Email;
-import com.nyss.thoughtworks.tradeAway.utilities.Encryptor;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Date;
 
 @Table(name = "users")
 @XmlRootElement
 @Entity
 @Data
-@Builder
+@Builder(builderMethodName = "hiddenBuilder")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,7 +92,8 @@ public class User {
     public interface New {
     }
 
-    public void encryptPassword() throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-        setPassword(Encryptor.encrypt(getPassword(), getUsername()));
+    public void encryptPassword() {
+        byte[] encodedPassword = Base64.getEncoder().encode(password.getBytes());
+        setPassword(encodedPassword.toString());
     }
 }

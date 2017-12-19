@@ -30,12 +30,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Long> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    public ResponseEntity<Long> create(@Validated(User.New.class) @RequestBody User user) {
+        UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
         user.encryptPassword();
         HttpHeaders headers = new HttpHeaders();
-        userService.create(user);
-        headers.setLocation(builder.path("/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        long id = userService.create(user);
+        headers.setLocation(builder.path("/{id}").buildAndExpand(id).toUri());
+        return new ResponseEntity<>(id, headers, HttpStatus.CREATED);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
