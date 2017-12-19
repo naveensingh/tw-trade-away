@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User create(User user) {
-        return userRepository.save(user);
+    public Long create(User user) {
+        return userRepository.save(user).getId();
     }
 }

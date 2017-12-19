@@ -30,7 +30,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    public ResponseEntity<Long> create(@Validated(User.New.class) @RequestBody User user, UriComponentsBuilder builder) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         user.encryptPassword();
         HttpHeaders headers = new HttpHeaders();
         userService.create(user);
