@@ -109,6 +109,36 @@ public class UserValidatorTest {
     }
 
     @Test
+    public void verifyThatSellerMustHaveExperienceAndPanNumber() {
+        User user = new User();
+        user.setUserType("SELLER");
+        user.setPanNumber("");
+        user.setExperience(3);
+        String errorMessage = "PAN Number cannot be empty";
+
+        when(inputValidator.validateStringForEmail(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphanumericCharacters(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForNumbersOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsAndSpacesOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
+        when(inputValidator.validateValidGenderOption(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn(errorMessage);
+        when(inputValidator.validateUserTypeOption(any())).thenReturn("");
+
+        List<String> errorMessages = userValidator.validate(user);
+
+        verify(inputValidator, times(1)).validatePositiveIntegersFromInput(user.getExperience(), "Experience");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getPanNumber(), "PAN Number");
+        verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number");
+
+        assertTrue(errorMessages.size() == 1);
+        assertTrue(errorMessages.contains(errorMessage));
+    }
+
+    @Test
     public void verifySingleErrorIsReturnedForSingleErrorInUserInput() {
         User user = new User();
         user.setUserType("SELLER");
