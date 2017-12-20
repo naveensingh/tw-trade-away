@@ -51,7 +51,7 @@ public class UserServiceTest {
 
 
         Assert.assertEquals(null, user.getPanNumber());
-        Assert.assertEquals(0, user.getExperience());
+        Assert.assertEquals(-1, user.getExperience());
         verify(userRepository, times(1)).save(user);
 
     }
