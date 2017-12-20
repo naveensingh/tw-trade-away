@@ -81,7 +81,7 @@ public class InputValidator {
             boolean valid = !"".equals(fieldValue);
             return valid ? "" : fieldName + " cannot be empty";
         }
-        return "";
+        return fieldName + " cannot be empty";
     }
 
     public String validateValidGenderOption(String gender) {
