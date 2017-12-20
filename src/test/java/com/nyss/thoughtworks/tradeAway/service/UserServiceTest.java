@@ -24,14 +24,15 @@ public class UserServiceTest {
 
     @Test
     public void verifyIfCreateMethodReturnsUserIdOfCreatedUser() {
-        User user = mock(User.class);
+        User inputUser = new User();
         long expectedId = 200L;
-        when(user.getId()).thenReturn(expectedId);
-        when(userRepository.save(user)).thenReturn(user);
+        User outputUser = new User();
+        outputUser.setId(expectedId);
+        when(userRepository.save(inputUser)).thenReturn(outputUser);
 
-        long actualId = userService.create(user);
+        long actualId = userService.create(inputUser);
 
-        verify(userRepository, times(1)).save(user);
+        verify(userRepository, times(1)).save(inputUser);
         Assert.assertEquals(expectedId, actualId);
     }
 }

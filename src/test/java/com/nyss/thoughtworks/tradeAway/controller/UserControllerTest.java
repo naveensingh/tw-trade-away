@@ -38,13 +38,7 @@ public class UserControllerTest {
         long dummyId = 200L;
         String expectedResponseBody = Long.toString(dummyId);
         User user = new User();
-        user.setName("Navin");
-        user.setDob(new Date());
         user.setPassword("navin12#");
-        user.setAddress("Hyd");
-        user.setMobile("1234567899");
-        user.setGender("MALE");
-        user.setEmailId("navin@bb.com");
         when(userService.create(user)).thenReturn(dummyId);
         when(userValidator.validate(user)).thenReturn(new ArrayList<>());
 
@@ -68,13 +62,6 @@ public class UserControllerTest {
         violations.add(thirdViolation);
 
         User user = new User();
-        user.setName("Navin");
-        user.setDob(new Date());
-        user.setPassword("navin12#");
-        user.setAddress("Hyd");
-        user.setMobile("1234567899");
-        user.setGender("MALE");
-        user.setEmailId("navin@bb.com");
         when(userValidator.validate(user)).thenReturn(violations);
 
         ResponseEntity<String> responseEntity = userController.create(user);
