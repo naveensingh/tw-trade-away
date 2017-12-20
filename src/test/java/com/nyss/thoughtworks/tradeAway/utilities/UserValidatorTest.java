@@ -29,9 +29,93 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void verifyNoErrorIsReturnedForValidUserInput() {
+    public void verifyNoErrorIsReturnedForValidBuyerInput() {
         User user = new User();
+        user.setUserType("BUYER");
         when(inputValidator.validateStringForEmail(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphanumericCharacters(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForNumbersOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsAndSpacesOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
+        when(inputValidator.validateValidGenderOption(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validateUserTypeOption("BUYER")).thenReturn("");
+
+        List<String> errorMessages = userValidator.validate(user);
+
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getUserType(), "UserType");
+        verify(inputValidator, times(1)).validateUserTypeOption(user.getUserType());
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getUsername(), "Username");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getUsername(), "Username");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringForAlphabetsAndSpacesOnly(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getPassword(), "Password");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getPassword(), "Password");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getEmailId(), "Email");
+        verify(inputValidator, times(1)).validateStringForEmail(user.getEmailId());
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getAddress(), "Address");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getAddress(), "Address");
+        verify(inputValidator, times(1)).validateStringForNumbersOnly(user.getMobile(), "Mobile");
+        verify(inputValidator, times(1)).validateMaxLength(user.getMobile(), "Mobile", 10);
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getGender(), "Gender");
+        verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getGender(), "Gender");
+        verify(inputValidator, times(1)).validateValidGenderOption(user.getGender());
+
+        assertTrue(errorMessages.isEmpty());
+    }
+    @Test
+    public void verifyNoErrorIsReturnedForValidSellerInput() {
+        User user = new User();
+        user.setUserType("SELLER");
+        when(inputValidator.validateStringForEmail(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphanumericCharacters(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForNumbersOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateStringForAlphabetsAndSpacesOnly(any(), any())).thenReturn("");
+        when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
+        when(inputValidator.validateValidGenderOption(any())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
+        when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn("");
+
+        when(inputValidator.validateUserTypeOption("SELLER")).thenReturn("");
+
+        List<String> errorMessages = userValidator.validate(user);
+
+        verify(inputValidator, times(1)).validatePositiveIntegersFromInput(user.getExperience(), "Experience");
+        verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getPanNumber(), "PAN Number");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getUserType(), "UserType");
+        verify(inputValidator, times(1)).validateUserTypeOption(user.getUserType());
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getUsername(), "Username");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getUsername(), "Username");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringForAlphabetsAndSpacesOnly(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getPassword(), "Password");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getPassword(), "Password");
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getEmailId(), "Email");
+        verify(inputValidator, times(1)).validateStringForEmail(user.getEmailId());
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getAddress(), "Address");
+        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getAddress(), "Address");
+        verify(inputValidator, times(1)).validateStringForNumbersOnly(user.getMobile(), "Mobile");
+        verify(inputValidator, times(1)).validateMaxLength(user.getMobile(), "Mobile", 10);
+        verify(inputValidator, times(1)).validateStringNotEmpty(user.getGender(), "Gender");
+        verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getGender(), "Gender");
+        verify(inputValidator, times(1)).validateValidGenderOption(user.getGender());
+
+        assertTrue(errorMessages.isEmpty());
+    }
+
+    @Test
+    public void verifySingleErrorIsReturnedForSingleErrorInUserInput() {
+        User user = new User();
+        user.setUserType("SELLER");
+        String emailValidationError = "Validation Error";
+        when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn("");
+        when(inputValidator.validateUserTypeOption("SELLER")).thenReturn("");
+        when(inputValidator.validateStringForEmail(any())).thenReturn(emailValidationError);
         when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
         when(inputValidator.validateStringForAlphanumericCharacters(any(), any())).thenReturn("");
         when(inputValidator.validateStringForAlphabetsOnly(any(), any())).thenReturn("");
@@ -58,14 +142,18 @@ public class UserValidatorTest {
         verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getGender(), "Gender");
         verify(inputValidator, times(1)).validateValidGenderOption(user.getGender());
 
-        assertTrue(errorMessages.isEmpty());
+        assertTrue(errorMessages.size() == 1);
+        assertTrue(errorMessages.contains(emailValidationError));
     }
 
     @Test
-    public void verifySingleErrorIsReturnedForSingleErrorInUserInput() {
+    public void verifyMultipleErrorsAreReturnedForMultipleErrorsInUserInput() {
         User user = new User();
+        user.setUserType("SELLER");
         String emailValidationError = "Validation Error";
-        String genderValidationError = "Gender can contain only alphabets";
+        String genderValidationError = "Gender can contain only alphabets";user.setUserType("SELLER");
+        when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn("");
+        when(inputValidator.validateUserTypeOption("SELLER")).thenReturn("");
         when(inputValidator.validateStringForEmail(any())).thenReturn(emailValidationError);
         when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
         when(inputValidator.validateStringForAlphanumericCharacters(any(), any())).thenReturn("");
@@ -96,10 +184,5 @@ public class UserValidatorTest {
         assertTrue(errorMessages.size() == 2);
         assertTrue(errorMessages.contains(emailValidationError));
         assertTrue(errorMessages.contains(genderValidationError));
-    }
-
-    @Test
-    public void verifyMultipleErrorsAreReturnedForMultipleErrorsInUserInput() {
-
     }
 }

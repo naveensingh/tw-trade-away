@@ -92,4 +92,9 @@ public class InputValidator {
     public String validatePositiveIntegersFromInput(int fieldValue, String fieldName) {
         return "";
     }
+
+    public String validateUserTypeOption(String userType) {
+        boolean valid = "BUYER".equals(userType) || "SELLER".equals(userType);
+        return valid ? "" : "Please pass only BUYER or SELLER in userType field";
+    }
 }

@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
@@ -37,8 +34,20 @@ public class UserValidator {
         errors.add(inputValidator.validateStringNotEmpty(user.getGender(), "Gender"));
         errors.add(inputValidator.validateStringForAlphabetsOnly(user.getGender(), "Gender"));
         errors.add(inputValidator.validateValidGenderOption(user.getGender()));
+        errors.add(inputValidator.validateStringNotEmpty(user.getUserType(), "UserType"));
+
+        String userTypeValidationOutput = inputValidator.validateUserTypeOption(user.getUserType());
+
+        errors.add(userTypeValidationOutput);
+        if("".equals(userTypeValidationOutput) && "SELLER".equals(user.getUserType())) {
+            errors.add(inputValidator.validateStringNotEmpty(user.getPanNumber(), "PAN Number"));
+            errors.add(inputValidator.validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number"));
+            errors.add(inputValidator.validatePositiveIntegersFromInput(user.getExperience(), "Experience"));
+        }
 
         errors.remove("");
-        return new ArrayList<>(errors);
+        List<String> errorsList = new ArrayList<>(errors);
+        Collections.sort(errorsList);
+        return errorsList;
     }
 }

@@ -210,4 +210,29 @@ public class InputValidatorTest {
         inputValidator.validatePositiveIntegersFromInput(fieldValue, fieldName);
         assertTrue(true);
     }
+
+    @Test
+    public void verifyValidUserTypePassesTheValidationForUserTypes() {
+        String firstUserType = "BUYER";
+        String secondUserType = "SELLER";
+        InputValidator inputValidator = new InputValidator();
+        String expectedOutputForValidUserType = "";
+
+        String firstUserTypeValidationError  = inputValidator.validateUserTypeOption(firstUserType);
+        String secondUserTypeValidationError = inputValidator.validateUserTypeOption(secondUserType);
+
+        assertEquals(expectedOutputForValidUserType, firstUserTypeValidationError);
+        assertEquals(expectedOutputForValidUserType, secondUserTypeValidationError);
+    }
+
+    @Test
+    public void verifyInvalidUserTypeFailsTheValidationForUserTypes() {
+        String userType = "BUYER123";
+        InputValidator inputValidator = new InputValidator();
+        String expectedOutputForValidUserType = "Please pass only BUYER or SELLER in userType field";
+
+        String firstUserTypeValidationError  = inputValidator.validateUserTypeOption(userType);
+
+        assertEquals(expectedOutputForValidUserType, firstUserTypeValidationError);
+    }
 }
