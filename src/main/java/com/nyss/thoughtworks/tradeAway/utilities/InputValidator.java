@@ -90,7 +90,7 @@ public class InputValidator {
     }
 
     public String validatePositiveIntegersFromInput(int fieldValue, String fieldName) {
-        return "";
+        return (Math.signum(fieldValue) < 0 || Math.signum(fieldValue) == -1.0) ? fieldName + " should be a positive number" : "";
     }
 
     public String validateUserTypeOption(String userType) {
