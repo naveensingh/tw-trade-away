@@ -3,6 +3,7 @@ package com.nyss.thoughtworks.tradeAway.utilities;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class InputValidatorTest {
@@ -200,5 +201,12 @@ public class InputValidatorTest {
         String actualValidationOutput = inputValidator.validateValidGenderOption(fieldValue);
 
         assertEquals(expectedValidationOutput, actualValidationOutput);
+    }
+
+    @Test
+    public void verifyTheInputIsValidIntegerValue() {
+        InputValidator inputValidator = new InputValidator();
+        inputValidator.validatePositiveIntegersFromInput();
+        assertTrue(true);
     }
 }

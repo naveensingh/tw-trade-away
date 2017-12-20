@@ -88,4 +88,7 @@ public class InputValidator {
         boolean valid = "MALE".equals(gender) || "FEMALE".equals(gender) || "OTHERS".equals(gender);
         return valid ? "" : "Please pass only MALE, FEMALE or OTHERS in gender field";
     }
+
+    public void validatePositiveIntegersFromInput() {
+    }
 }
