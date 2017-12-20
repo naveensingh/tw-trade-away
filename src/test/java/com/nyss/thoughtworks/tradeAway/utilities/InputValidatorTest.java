@@ -206,7 +206,8 @@ public class InputValidatorTest {
     @Test
     public void verifyTheInputIsValidIntegerValue() {
         InputValidator inputValidator = new InputValidator();
-        inputValidator.validatePositiveIntegersFromInput();
+        int fieldValue = 0; String fieldName = "";
+        inputValidator.validatePositiveIntegersFromInput(fieldValue, fieldName);
         assertTrue(true);
     }
 }

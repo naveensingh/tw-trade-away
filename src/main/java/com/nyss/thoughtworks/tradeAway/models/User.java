@@ -48,14 +48,15 @@ public class User {
     @Column
     private Date dob;
 
+    @Column
+    private int experience;
+
+    @Column
+    private String panNumber;
+
     public void encryptPassword() {
         byte[] encodedPassword = Base64.getEncoder().encode(password.getBytes());
         setPassword(new String(encodedPassword));
     }
 
-    @PrePersist
-    public void prePersist() {
-        if (this.userType == null || "".equals(this.userType))
-            this.userType = "BUYER";
-    }
 }
