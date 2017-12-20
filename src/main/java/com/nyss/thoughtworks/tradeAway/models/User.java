@@ -44,7 +44,7 @@ public class User {
     @Column
     private String userType;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Column
     private Date dob;
 
