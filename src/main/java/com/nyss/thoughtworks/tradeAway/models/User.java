@@ -52,10 +52,4 @@ public class User {
         byte[] encodedPassword = Base64.getEncoder().encode(password.getBytes());
         setPassword(new String(encodedPassword));
     }
-
-    @PrePersist
-    public void prePersist() {
-        if (this.userType == null || "".equals(this.userType))
-            this.userType = "BUYER";
-    }
 }
