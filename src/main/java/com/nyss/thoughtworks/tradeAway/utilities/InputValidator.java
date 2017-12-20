@@ -89,6 +89,7 @@ public class InputValidator {
         return valid ? "" : "Please pass only MALE, FEMALE or OTHERS in gender field";
     }
 
-    public void validatePositiveIntegersFromInput() {
+    public String validatePositiveIntegersFromInput(int fieldValue, String fieldName) {
+        return (Math.signum(fieldValue) < 0 || Math.signum(fieldValue) == -1.0) ? fieldName + " should be a positive number" : "";
     }
 }

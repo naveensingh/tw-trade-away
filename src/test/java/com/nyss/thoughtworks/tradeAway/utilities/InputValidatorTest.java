@@ -204,9 +204,22 @@ public class InputValidatorTest {
     }
 
     @Test
-    public void verifyTheInputIsValidIntegerValue() {
+    public void verifyTheInputIsValidPositiveIntegerValue() {
         InputValidator inputValidator = new InputValidator();
-        inputValidator.validatePositiveIntegersFromInput();
-        assertTrue(true);
+        int fieldValue = 1;
+        String fieldName = "PositiveNumber";
+        String expectedValidationOutput = "";
+        String actualValidationOutput = inputValidator.validatePositiveIntegersFromInput(fieldValue, fieldName);
+        assertEquals(expectedValidationOutput, actualValidationOutput);
+    }
+
+    @Test
+    public void verifyTheInputIsNotPositiveIntegerValue() {
+        InputValidator inputValidator = new InputValidator();
+        int fieldValue = -11;
+        String fieldName = "NegativeNumber";
+        String expectedValidationOutput = fieldName + " should be a positive number";
+        String actualValidationOutput = inputValidator.validatePositiveIntegersFromInput(fieldValue, fieldName);
+        assertEquals(expectedValidationOutput, actualValidationOutput);
     }
 }
