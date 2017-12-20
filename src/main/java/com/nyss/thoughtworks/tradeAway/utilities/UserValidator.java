@@ -25,7 +25,7 @@ public class UserValidator {
         errors.add(inputValidator.validateStringNotEmpty(user.getUsername(), "Username"));
         errors.add(inputValidator.validateStringForAlphanumericCharacters(user.getUsername(), "Username"));
         errors.add(inputValidator.validateStringNotEmpty(user.getName(), "Name"));
-        errors.add(inputValidator.validateStringForAlphanumericCharacters(user.getName(), "Name"));
+        errors.add(inputValidator.validateStringForAlphabetsAndSpacesOnly(user.getName(), "Name"));
         errors.add(inputValidator.validateStringNotEmpty(user.getPassword(), "Password"));
         errors.add(inputValidator.validateStringForAlphanumericCharacters(user.getPassword(), "Password"));
         errors.add(inputValidator.validateStringNotEmpty(user.getEmailId(), "Email"));

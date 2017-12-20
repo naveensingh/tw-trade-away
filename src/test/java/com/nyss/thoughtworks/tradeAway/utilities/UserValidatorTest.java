@@ -45,7 +45,7 @@ public class UserValidatorTest {
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getUsername(), "Username");
         verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getUsername(), "Username");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getName(), "Name");
-        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringForAlphabetsAndSpacesOnly(user.getName(), "Name");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getPassword(), "Password");
         verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getPassword(), "Password");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getEmailId(), "Email");
@@ -80,7 +80,7 @@ public class UserValidatorTest {
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getUsername(), "Username");
         verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getUsername(), "Username");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getName(), "Name");
-        verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getName(), "Name");
+        verify(inputValidator, times(1)).validateStringForAlphabetsAndSpacesOnly(user.getName(), "Name");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getPassword(), "Password");
         verify(inputValidator, times(1)).validateStringForAlphanumericCharacters(user.getPassword(), "Password");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getEmailId(), "Email");
