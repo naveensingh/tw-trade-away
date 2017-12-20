@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.boot.test.context.TestComponent;
+
+import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
@@ -33,5 +36,41 @@ public class UserServiceTest {
 
         verify(userRepository, times(1)).save(inputUser);
         Assert.assertEquals(expectedId, actualId);
+    }
+
+    @Test
+    public void verifyIfNonBuyerAttributesAreTruncatedBeforeSavingBuyer()
+    {
+        User user = new User();
+        user.setUserType("BUYER");
+        user.setPanNumber("ABCD");
+        user.setExperience(5);
+        when(userRepository.save(user)).thenReturn(user);
+
+        userService.create(user);
+
+
+        Assert.assertEquals(null, user.getPanNumber());
+        Assert.assertEquals(0, user.getExperience());
+        verify(userRepository, times(1)).save(user);
+
+    }
+
+    @Test
+    public void verifyIfNonSellerAttributesAreTruncatedBeforeSavingSeller()
+    {
+        User user = new User();
+        user.setUserType("SELLER");
+        user.setGender("MALE");
+        user.setDob(new Date());
+        when(userRepository.save(user)).thenReturn(user);
+
+        userService.create(user);
+
+
+        Assert.assertEquals(null, user.getGender());
+        Assert.assertEquals(null, user.getDob());
+        verify(userRepository, times(1)).save(user);
+
     }
 }

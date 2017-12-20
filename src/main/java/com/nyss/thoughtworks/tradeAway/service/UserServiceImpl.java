@@ -13,6 +13,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long create(User user) {
+        truncateNonBuyerAttribute(user);
+        truncateNonSellerAttribute(user);
         return userRepository.save(user).getId();
+    }
+
+    @Override
+    public void truncateNonBuyerAttribute(User user){
+        if("BUYER".equals(user.getUserType())) {
+            user.setPanNumber(null);
+            user.setExperience(0);
+        }
+    }
+
+    @Override
+    public void truncateNonSellerAttribute(User user) {
+        if("SELLER".equals(user.getUserType())) {
+            user.setGender(null);
+            user.setDob(null);
+        }
     }
 }
