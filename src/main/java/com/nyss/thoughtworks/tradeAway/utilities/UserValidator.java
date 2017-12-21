@@ -42,7 +42,7 @@ public class UserValidator {
         if((userTypeValidationOutput == null ||"".equals(userTypeValidationOutput)) && "SELLER".equals(user.getUserType())) {
             errors.add(inputValidator.validateStringNotEmpty(user.getPanNumber(), "PAN Number"));
             errors.add(inputValidator.validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number"));
-            errors.add(inputValidator.validatePositiveIntegersFromInput(user.getExperience(), "Experience"));
+            errors.add(inputValidator.validateInputForExperience(user.getExperience()));
         }
 
         errors.remove("");

@@ -234,7 +234,7 @@ public class InputValidatorTest {
         InputValidator inputValidator = new InputValidator();
         String expectedOutputForValidUserType = "";
 
-        String firstUserTypeValidationError  = inputValidator.validateUserTypeOption(firstUserType);
+        String firstUserTypeValidationError = inputValidator.validateUserTypeOption(firstUserType);
         String secondUserTypeValidationError = inputValidator.validateUserTypeOption(secondUserType);
 
         assertEquals(expectedOutputForValidUserType, firstUserTypeValidationError);
@@ -247,8 +247,22 @@ public class InputValidatorTest {
         InputValidator inputValidator = new InputValidator();
         String expectedOutputForValidUserType = "Please pass only BUYER or SELLER in userType field";
 
-        String firstUserTypeValidationError  = inputValidator.validateUserTypeOption(userType);
+        String firstUserTypeValidationError = inputValidator.validateUserTypeOption(userType);
 
         assertEquals(expectedOutputForValidUserType, firstUserTypeValidationError);
+    }
+
+    @Test
+    public void verifyValidExperienceFieldReturnsNoErrorForExperienceValidation() {
+        String firstValue = "21";
+        String secondValue = "NA";
+        InputValidator inputValidator = new InputValidator();
+        String expectedOutput = "";
+
+        String actualOutputForFirstValue = inputValidator.validateInputForExperience(firstValue);
+        String actualOutputForSecondValue = inputValidator.validateInputForExperience(secondValue);
+
+        assertEquals(expectedOutput, actualOutputForFirstValue);
+        assertEquals(expectedOutput, actualOutputForSecondValue);
     }
 }

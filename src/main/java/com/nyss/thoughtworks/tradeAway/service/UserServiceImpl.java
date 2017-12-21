@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private void truncateNonBuyerAttribute(User user){
         if("BUYER".equals(user.getUserType())) {
             user.setPanNumber(null);
-            user.setExperience(-1);
+            user.setExperience("NA");
         }
     }
 

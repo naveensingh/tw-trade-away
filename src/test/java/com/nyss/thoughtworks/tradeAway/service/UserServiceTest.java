@@ -44,14 +44,14 @@ public class UserServiceTest {
         User user = new User();
         user.setUserType("BUYER");
         user.setPanNumber("ABCD");
-        user.setExperience(5);
+        user.setExperience("5");
         when(userRepository.save(user)).thenReturn(user);
 
         userService.create(user);
 
 
         Assert.assertEquals(null, user.getPanNumber());
-        Assert.assertEquals(-1, user.getExperience());
+        Assert.assertEquals("NA", user.getExperience());
         verify(userRepository, times(1)).save(user);
 
     }

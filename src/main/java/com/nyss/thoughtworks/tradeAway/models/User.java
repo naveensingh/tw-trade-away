@@ -49,7 +49,7 @@ public class User {
     private Date dob;
 
     @Column
-    private int experience;
+    private String experience;
 
     @Column
     private String panNumber;

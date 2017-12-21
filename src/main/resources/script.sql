@@ -13,7 +13,7 @@ create table users (
     address varchar(255),
     dob timestamp,
     email_id varchar(255),
-    experience int4,
+    experience varchar(255),
     gender varchar(255),
     mobile varchar(255),
     name varchar(255),

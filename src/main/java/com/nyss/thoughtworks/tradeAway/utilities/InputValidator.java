@@ -90,11 +90,16 @@ public class InputValidator {
     }
 
     public String validatePositiveIntegersFromInput(int fieldValue, String fieldName) {
-        return (Math.signum(fieldValue) < 0 || Math.signum(fieldValue) == -1.0) ? fieldName + " should be a positive number" : "";
+        return fieldValue < 0 ? fieldName + " should be a positive number" : "";
     }
 
     public String validateUserTypeOption(String userType) {
         boolean valid = "BUYER".equals(userType) || "SELLER".equals(userType);
         return valid ? "" : "Please pass only BUYER or SELLER in userType field";
+    }
+
+    public String validateInputForExperience(String fieldValue) {
+        boolean isValid = !"".equals(fieldValue) && ("NA".equals(fieldValue) || "".equals(validateStringForNumbersOnly(fieldValue, "Experience")));
+        return isValid ? "":"Only NA or numeric values are accepted as experience";
     }
 }

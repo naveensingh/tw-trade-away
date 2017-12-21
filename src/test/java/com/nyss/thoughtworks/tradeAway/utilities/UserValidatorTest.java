@@ -79,12 +79,12 @@ public class UserValidatorTest {
         when(inputValidator.validateValidGenderOption(any())).thenReturn("");
         when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
         when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn("");
-
+        when(inputValidator.validateInputForExperience(anyString())).thenReturn("");
         when(inputValidator.validateUserTypeOption("SELLER")).thenReturn("");
 
         List<String> errorMessages = userValidator.validate(user);
 
-        verify(inputValidator, times(1)).validatePositiveIntegersFromInput(user.getExperience(), "Experience");
+        verify(inputValidator, times(1)).validateInputForExperience(user.getExperience());
         verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getPanNumber(), "PAN Number");
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getUserType(), "UserType");
@@ -113,7 +113,7 @@ public class UserValidatorTest {
         User user = new User();
         user.setUserType("SELLER");
         user.setPanNumber("");
-        user.setExperience(3);
+        user.setExperience("3");
         String errorMessage = "PAN Number cannot be empty";
 
         when(inputValidator.validateStringForEmail(any())).thenReturn("");
@@ -125,12 +125,13 @@ public class UserValidatorTest {
         when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
         when(inputValidator.validateValidGenderOption(any())).thenReturn("");
         when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn("");
-        when(inputValidator.validatePositiveIntegersFromInput(anyInt(), any())).thenReturn(errorMessage);
         when(inputValidator.validateUserTypeOption(any())).thenReturn("");
+        when(inputValidator.validateInputForExperience(anyString())).thenReturn("");
+        when(inputValidator.validateStringNotEmpty(any(), any())).thenReturn(errorMessage);
 
         List<String> errorMessages = userValidator.validate(user);
 
-        verify(inputValidator, times(1)).validatePositiveIntegersFromInput(user.getExperience(), "Experience");
+        verify(inputValidator, times(1)).validateInputForExperience(user.getExperience());
         verify(inputValidator, times(1)).validateStringNotEmpty(user.getPanNumber(), "PAN Number");
         verify(inputValidator, times(1)).validateStringForAlphabetsOnly(user.getPanNumber(), "PAN Number");
 
@@ -153,6 +154,7 @@ public class UserValidatorTest {
         when(inputValidator.validateStringForAlphabetsAndSpacesOnly(any(), any())).thenReturn("");
         when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
         when(inputValidator.validateValidGenderOption(any())).thenReturn("");
+        when(inputValidator.validateInputForExperience(any())).thenReturn("");
 
         List<String> errorMessages = userValidator.validate(user);
 
@@ -192,6 +194,7 @@ public class UserValidatorTest {
         when(inputValidator.validateStringForAlphabetsAndSpacesOnly(any(), any())).thenReturn("");
         when(inputValidator.validateMaxLength(any(), any(), anyInt())).thenReturn("");
         when(inputValidator.validateValidGenderOption(any())).thenReturn("");
+        when(inputValidator.validateInputForExperience(any())).thenReturn("");
 
         List<String> errorMessages = userValidator.validate(user);
 
